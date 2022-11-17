@@ -1,0 +1,118 @@
+from tkinter import *
+from random import *
+
+
+#DEF
+def pole():
+    for y in range (0,10):
+        for x in range (0,10):
+            pl = Label(gamef,bg = 'gray',text=(''),height=1,width=2)
+            pl.rowconfigure(y,weight=1)
+            pl.columnconfigure(x,weight=1)
+            pl.grid (row=x,column=y)
+def start():
+    lst = [[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[],[],[],[]]]
+    x=randint (0,9)
+    y=randint (0,9) 
+    sec = Label(gamef,bg = 'green',text=('2'),height=1,width=2)
+    sec.grid (row=x,column=y)
+    lst[x][y] = 2
+    hod(lst)
+
+
+def spawn (__list__):
+     while True:
+        x=randint(0,9)
+        y=randint(0,9)
+        c = randint(1,4)
+        if (__list__[x][y])==[]:
+            if c != 4:
+                c = 2
+            __list__[x][y] = c
+            sec = Label(gamef,bg = color[__list__[x][y]//2],text=(str(__list__[x][y])),height=1,width=2)
+            if x != 0:
+                sec.grid (row=x-1,column=y)
+            break
+        else:
+            continue
+
+def hod(__list__):
+    print (__list__)
+    a=input()
+    if a == 'w':
+        sdvig_w(__list__)
+    elif a == 'a':
+        sdvig_a(__list__)
+    elif a == 's':
+        sdvig_s(__list__)
+    elif a == 'd':
+        sdvig_d(__list__)
+#sdvigs
+def sdvig_w(__list__):
+    for y in range(9):
+        for x in range(9,0,-1):
+            if __list__[x][y] != [] and __list__[x][y] == __list__[x-1][y]: 
+                __list__[x-1][y] = __list__[x][y]*2
+                print (__list__[x][y])
+                __list__[x][y] = []
+                sec = Label(gamef,bg = color[__list__[x-1][y]//2],text=(str(__list__[x-1][y])),height=1,width=2)  
+                if x!=0:
+                    sec.grid (row=x-1,column=y)
+                sec = Label(gamef,bg = color [0],text=(''),height=1,width=2)  
+                sec.grid (row=x,column=y)
+            elif __list__[x][y] != [] and __list__[x-1][y]==[]:
+                __list__[x-1][y] = __list__[x][y]
+                __list__[x][y] = []
+                sec = Label(gamef,bg = color[__list__[x-1][y]**0.5],text=(str(__list__[x-1][y])),height=1,width=2)
+                
+                sec.grid (row=x-1,column=y)
+                sec = Label(gamef,bg = color [0],text=(''),height=1,width=2)
+                sec.grid (row=x,column=y)
+    spawn(__list__)
+    hod(__list__)
+def sdvig_a(__list__):
+    for y in range(9,0,-1):
+        for x in range(9):
+            if __list__[x][y] != [] and __list__[x][y] == __list__[x][y-1]: 
+                __list__[x][y-1] = __list__[x][y]*2
+                print (__list__[x][y])
+                __list__[x][y] = []
+                sec = Label(gamef,bg = color[__list__[x][y-1]//2],text=(str(__list__[x][y-1])),height=1,width=2)  
+                if y!=0:
+                    sec.grid (row=x,column=y-1)
+                sec = Label(gamef,bg = color [0],text=(''),height=1,width=2)  
+                sec.grid (row=x,column=y)
+            elif __list__[x][y] != [] and __list__[x][y-1]==[]:
+                __list__[x][y-1] = __list__[x][y]
+                __list__[x][y] = []
+                sec = Label(gamef,bg = color[__list__[x][y-1]//2],text=(str(__list__[x][y-1])),height=1,width=2)
+                sec.grid (row=x,column=y-1)
+                sec = Label(gamef,bg = color [0],text=(''),height=1,width=2)
+                sec.grid (row=x,column=y)
+    spawn(__list__)
+    hod(__list__)
+
+
+    
+
+
+
+#GUI
+okno = Tk()
+okno.title("2048")
+okno.minsize(width=400,height=400)
+okno.geometry('400x400')
+settings = Frame(okno)
+settings.pack()
+gamef = Frame(settings)
+gamef.grid(row=0,column=0)
+butf = Frame(settings)
+butf.grid(row=1,column=0)
+
+
+
+#Game
+color = ['gray','green','blue','red','purple']
+pole()
+start()
+okno.mainloop()
